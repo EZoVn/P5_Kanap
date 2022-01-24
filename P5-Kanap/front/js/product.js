@@ -21,7 +21,7 @@ fetch("http://localhost:3000/api/products")
             let product = new Product(jsonProduct);
             // je parcours le tableau des produits si je trouve l'id correspondant a leId je copie l'element dans la variable produit
             console.log(product);
-            
+            // comment sortir les elements de ce fetch
             if(product._id == leId){
                 console.log('ok');
                 let produit = product;
@@ -44,6 +44,35 @@ fetch("http://localhost:3000/api/products")
         produit.colors.forEach(function(element) {
             let i = element;
            document.getElementById('colors').innerHTML += `<option value="${element}">${element}</option>`;
-       });
     })
-    
+})
+
+    // serait-il possible d'ajouter un titre a la page dans le head
+
+/** ecouter l'evenemment click
+ * quel couleur 
+ * quelle quantité+
+ * click du bouton ajouter au panier 
+ * enregistrer les éléments du panier
+ */
+// const color = idForm.value;
+const idForm = document.querySelector('#colors');
+const quantitySelec = document.querySelector('#quantity');
+
+const element = document.getElementById('addToCart');
+element.addEventListener('click', (e) => {
+    e.preventDefault();
+    const color = idForm.value;
+    const quantity = quantitySelec.value;
+
+    let optionKanap = {
+    // nom du produit
+        idProduct : leId,
+        colors : color,
+        quantitySelec : quantity
+    }
+    // je récupere bien l'id, la quantité et la couleur mais ca ne l'envoi pas encore dans le panier
+    console.log(optionKanap);
+    addBasket(leId);
+    console.log(leId);
+});
