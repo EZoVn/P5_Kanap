@@ -19,28 +19,15 @@ fetch(`http://localhost:3000/api/products/${leId}`)
            document.getElementById('colors').innerHTML += `<option value="${element}">${element}</option>`;
     })
 })
-
     // serait-il possible d'ajouter un titre a la page dans le head
-
-/** ecouter l'evenemment click
- * quel couleur 
- * quelle quantité+
- * click du bouton ajouter au panier 
- * enregistrer les éléments du panier
- */
-// const color = idForm.value;
-
 
 const element = document.getElementById('addToCart');
 element.addEventListener('click', (e) => {
     e.preventDefault();
     const name = document.getElementById('title').innerText;
-
     const color = document.querySelector('#colors').value;
     // je reccupere un entier pour faire des calculs
     let quantity = parseInt(document.querySelector('#quantity').value);
-
-
     let optionKanap = {
         name : name,
         idProduct : leId,
@@ -49,5 +36,4 @@ element.addEventListener('click', (e) => {
     // je récupere bien l'id, la quantité et la couleur mais ca ne l'envoi pas encore dans le panier
     // console.log(optionKanap);
     addBasket(optionKanap, quantity, color);
-
 });
