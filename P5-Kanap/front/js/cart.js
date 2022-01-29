@@ -59,7 +59,8 @@ fetch(url)
                     const input = document.createElement('input');
                     input.setAttribute('type', "number");
                     input.setAttribute('class', "itemQuantity");
-                    input.setAttribute('name', "itemQuantity");
+                    // input.setAttribute('name', "itemQuantity");
+                    input.setAttribute('name', `${produit.idProduct}`);
                     input.setAttribute('min', "1");
                     input.setAttribute('max', "100");
                     input.setAttribute('value', `${produit.quantity}`);
@@ -72,44 +73,44 @@ fetch(url)
                     const pSupprimer = document.createElement('p');
                     pSupprimer.setAttribute('class', 'deleteItem')
                     pSupprimer.textContent = 'Supprimer'
-                    cart__item__content__settings__delete.appendChild(pSupprimer);
-
-
-
-                            
-                            /* ajoute la quantité du input necessite un raffraichissement
-                            * ne fonctionne que sur le premier produit et influence nimporte quelle canape
-                            */
-                            const t = document.querySelector('.itemQuantity');
-                            // console.log(data);
-                            t.addEventListener('change', () => {
-                                changeQuantity(produit.idProduct, t.value);
-                                console.log(produit.idProduct, produit.quantity);
-                            })
-                            /* supprime bien l'élément mais la page doit etre raffraichi
-                            * ne prend pas en compte la couleur supprime les deux du meme id
-                            */
-                            const del = document.querySelector('.deleteItem');
-                            del.addEventListener('click', () => {
-                                removeFromBasket(produit.idProduct, produit.colors);
-                            })
-                        }
+                    cart__item__content__settings__delete.appendChild(pSupprimer);                           
                     }
                 }
+            }
+            /*recherche de l'evenement change sur l'input
+            *je n'arrive pas a réccuperer l'idProduit ni la couleur a modifer
+            *donc ma modification augmente le premier avec l'id ajouter dans name
+            *
+            * Comment retrouver le bon bouton input selectionner    ???
+            * 
+            */
+            const t = document.querySelectorAll('.itemQuantity');
+            console.log(t);
+            t.forEach( item => {
+                item.addEventListener('change', event => {
+                    event.preventDefault();
+                    console.log(i++);
+                    console.log(item.value);
+                    console.log(item.name);
+                    changeQuantity(item.name, item.value);
+
+                })
             })
+            const del = document.querySelectorAll('.deleteItem');
+            del.forEach(item => {
+
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    console.log(e);
+                    removeFromBasket(item.idProduct);
+                })
+            })
+                    
+        })
     
 
 
 
-function boucle(t) {
-    t.forEach(element => {
-        console.log(element);
-                element.addEventListener('change', (e) => {
-                    console.log(element.input);
-                })   
-                console.log(element);
-            });
-}
 
 // nombre d'article total
 let totalArticle = getNumberProduct();

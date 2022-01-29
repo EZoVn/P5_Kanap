@@ -5,19 +5,29 @@ const leId = queryString.get("id");
 console.log(leId);
 
 
-// id reccuperer maintgenant je doit afficher les informations correspondant au produit
+// id reccuperer maintgenant j'affiche les informations correspondant au produit
 fetch(`http://localhost:3000/api/products/${leId}`)
     .then( res => res.json())
     .then(produit => {
-        document.querySelector('.item__img').innerHTML += `<img src="${produit.imageUrl}" alt="${produit.altTxt}">`
-        document.getElementById('title').innerHTML += `${produit.name}`
-        document.getElementById('price').innerHTML += `${produit.price}`
-        document.getElementById('description').innerHTML += `${produit.description}`
+        const item__img = document.querySelector('.item__img');
+        
+        const img = document.createElement('img');
+        img.setAttribute('src', `${produit.imageUrl}`);
+        img.setAttribute('alt', `${produit.altTxt}`);
+        item__img.appendChild(img);
+        
+        document.getElementById('title').textContent = `${produit.name}`;
+        document.getElementById('price').textContent = `${produit.price} `;
+        document.getElementById('description').textContent = `${produit.description}`;
 
-        // faire une boucle pour charger chaque couleur dans le selecteur
         produit.colors.forEach(function(element) {
-           document.getElementById('colors').innerHTML += `<option value="${element}">${element}</option>`;
-    })
+            const color = document.getElementById('colors');
+            
+            const option = document.createElement('option');
+            option.setAttribute('value', `${element}`);
+            option.textContent = `${element}`;
+            color.appendChild(option);
+     })
 })
     // serait-il possible d'ajouter un titre a la page dans le head
 
@@ -33,7 +43,5 @@ element.addEventListener('click', (e) => {
         idProduct : leId,
         colors : color,    
     }
-    // je récupere bien l'id, la quantité et la couleur mais ca ne l'envoi pas encore dans le panier
-    // console.log(optionKanap);
     addBasket(optionKanap, quantity, color);
 });

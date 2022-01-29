@@ -101,5 +101,15 @@ const test = async function () {
  test();
  */
 
- 
+ /* basket.js
+ // document.querySelector('.item__img').innerHTML += `<img src="${produit.imageUrl}" alt="${produit.altTxt}">`;
+        // document.getElementById('title').innerHTML += `${produit.name}`;
+        // document.getElementById('price').innerHTML += `${produit.price}`;
+        // document.getElementById('description').innerHTML += `${produit.description}`;
+
+        // faire une boucle pour charger chaque couleur dans le selecteur
+    //     produit.colors.forEach(function(element) {
+    //        document.getElementById('colors').innerHTML += `<option value="${element}">${element}</option>`;
+    // })
+    */
                     

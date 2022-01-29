@@ -8,7 +8,7 @@ class Product{
 fetch("http://localhost:3000/api/products")
     .then( data => data.json())
     .then( jsonListProduct => {
-        let content = "";
+        // let content = "";
         for(let jsonProduct of jsonListProduct){
             let product = new Product(jsonProduct);
             // pour retrouver l'id du produit j'ai ajouter id= dans le lien pour reccupérer ce qui se trouve après.

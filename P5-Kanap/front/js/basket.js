@@ -41,7 +41,7 @@ function changeQuantity(product, quantity) {
     let basket = getBasket();
     let foundProduct = basket.find(p => p.idProduct == product);
 
-    console.log(product);
+    // console.log(product);
     if(foundProduct != undefined) {
         foundProduct.quantity = parseInt(quantity);
         console.log(quantity);
