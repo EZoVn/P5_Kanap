@@ -50,7 +50,7 @@ class basket{
     }
 }
 
-/*
+/* cart.js
 for(let produit of basket){
     let product = basket.find(p => p.idProduct == produit.idProduct && p.colors ==produit.colors);
 
@@ -100,3 +100,6 @@ const test = async function () {
 }
  test();
  */
+
+ 
+                    

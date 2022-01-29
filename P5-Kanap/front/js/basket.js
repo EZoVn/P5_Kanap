@@ -33,7 +33,7 @@ function addBasket(product, quantity, color) {
 function removeFromBasket(product, color) {
     let basket = getBasket();
     basket = basket.filter(p => p.idProduct != product && p.colors != color);
-    console.log(p.idProduct, product, p.colors, color);
+    console.log(basket.idProduct, product, basket.colors, color);
     saveBasket(basket);
 }
 
