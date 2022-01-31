@@ -3,7 +3,12 @@ let basket = getBasket();
 console.table(basket);
 
 const url = `http://localhost:3000/api/products`;
-
+/** /-----------------Affichage des produits du panier ---------------------------\
+*Je fais une requête fetch de tout les produits avec une boucle
+*Je fais une seconde boucle avec les produits récuperer du panier
+*Si je trouve un produit du panier identique à un produit dans tout les produits
+*alors je crée les éléments de l'article en y incorporant les bonnes valeurs
+*/
 fetch(url)
     .then(response => response.json())
     .then(data => {
@@ -11,15 +16,17 @@ fetch(url)
             for(let produit of basket){
                 if(produit.idProduct === product._id) {
 
-                    /*Version createElement et appendChild plus maintenable que la version innerHTML*/
-                    const cart__items = document.getElementById('cart__items');
+                    /**Version createElement et appendChild plus maintenable que la version innerHTML*/
 
+                    /**--article--*/
+                    const cart__items = document.getElementById('cart__items');
                     let article = document.createElement('article');
                     article.setAttribute('class', 'cart__item');
                     article.setAttribute('data-id', `${produit.idProduct}`);
                     article.setAttribute('data-color', `${produit.colors}`);
                     cart__items.appendChild(article);
 
+                    /**--cart__item__img--*/
                     const cart__item__img = document.createElement('div');
                     cart__item__img.setAttribute('class', 'cart__item__img');
                     article.appendChild(cart__item__img);
@@ -28,11 +35,13 @@ fetch(url)
                     img.setAttribute("src", `${product.imageUrl}`);
                     img.setAttribute("alt", `${product.altTxt}`);
                     cart__item__img.appendChild(img);
-                
+
+                    /**--cart__item__content--*/
                     const cart__item__content = document.createElement('div');
                     cart__item__content.setAttribute('class', 'cart__item__content');
                     article.appendChild(cart__item__content);
-
+                    
+                    /**--descritpion--*/
                     const cart__item__content__description = document.createElement('div');
                     cart__item__content__description.setAttribute('class', 'cart__item__content__description');
                     cart__item__content.appendChild(cart__item__content__description);
@@ -41,8 +50,11 @@ fetch(url)
                     const pColor = document.createElement('p');
                     cart__item__content__description.appendChild(pColor).textContent = `${produit.colors}`;
                     const pQuantityPrice = document.createElement('p');
+                    // class ajouter
+                    pQuantityPrice.setAttribute('class', 'pQuantityPrice');
                     cart__item__content__description.appendChild(pQuantityPrice).textContent = `${produit.quantity * product.price} €`;
-
+                    
+                    /**--settings--*/
                     const cart__item__content__settings = document.createElement('div');
                     cart__item__content__settings.setAttribute('class', 'cart__item__content__settings');
                     cart__item__content.appendChild(cart__item__content__settings);
@@ -55,10 +67,11 @@ fetch(url)
                     pQuantity.textContent = 'Qté : ';
                     cart__item__content__settings__quantity.appendChild(pQuantity);
                     
-                    
                     const input = document.createElement('input');
                     input.setAttribute('type', "number");
                     input.setAttribute('class', "itemQuantity");
+
+
                     // input.setAttribute('name', "itemQuantity");
                     input.setAttribute('name', `${produit.idProduct}`);
                     input.setAttribute('min', "1");
@@ -77,19 +90,23 @@ fetch(url)
                     }
                 }
             }
-            /*recherche de l'evenement change sur l'input
-            *je n'arrive pas a réccuperer l'idProduit ni la couleur a modifer
-            *donc ma modification augmente le premier avec l'id ajouter dans name
-            *
-            * Comment retrouver le bon bouton input selectionner    ???
-            * 
-            */
+            
+        })
+        /**recherche de l'evenement change sur l'input
+        *je n'arrive pas a réccuperer l'idProduit ni la couleur a modifer
+        *donc ma modification augmente le premier avec l'id ajouter dans name
+        *
+        * Comment retrouver le bon bouton input selectionner    ???
+        * est-ce qu'on peut remonter dans la div article afin de reccuperer data-id et data-color ??
+        */
+        .then(item => {
             const t = document.querySelectorAll('.itemQuantity');
             console.log(t);
             t.forEach( item => {
+                const data = document.querySelector('.cart__item').innerText;
                 item.addEventListener('change', event => {
                     event.preventDefault();
-                    console.log(i++);
+                    console.log(data);
                     console.log(item.value);
                     console.log(item.name);
                     changeQuantity(item.name, item.value);
@@ -102,30 +119,24 @@ fetch(url)
                 item.addEventListener('click', (e) => {
                     e.preventDefault();
                     console.log(e);
-                    removeFromBasket(item.idProduct);
+                    // il faut reccuperer la couleur dabord
+                    removeFromBasket(item.idProduct, item.colors);
                 })
             })
-                    
+            /** /----------------- Prix total --------------------------\
+            *Je récupere le prix de chaque élément du panier
+            *Je l'additionne à totalPrice
+            *Je retourne le prix total après la boucle
+            */
+            let price = document.querySelectorAll('.pQuantityPrice');
+            let totalPrice = 0;
+            price.forEach(priceTot => {
+                let price = parseInt(priceTot.innerText);
+                totalPrice += price;
+            })
+            document.getElementById('totalPrice').textContent = `${totalPrice}`;           
         })
-    
 
-
-
-
-// nombre d'article total
+/* /------------ Article total ---------------------\ */
 let totalArticle = getNumberProduct();
 document.getElementById('totalQuantity').innerText += `${totalArticle}`;
-
-
-// Il faut reussir a réccuperer le prix de fetch avant meme probleme que les addEventListener
-function getTotalPrice() {
-    let basket = getBasket();
-    let total = 0;
-    for (let product of basket) {
-        total += product.quantity * product.price;
-    }
-    return total;
-}
-let totalPrice = getTotalPrice();
-console.log(totalPrice);
-document.getElementById('totalPrice').innerText += `${totalPrice}`;
