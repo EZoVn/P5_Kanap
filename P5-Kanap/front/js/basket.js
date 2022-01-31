@@ -50,7 +50,6 @@ function addBasket(product, quantity, color) {
 function removeFromBasket(product, color) {
     let basket = getBasket();
     basket = basket.filter(p => p.idProduct != product && p.colors != color);
-    console.log(basket.idProduct, product, basket.colors, color);
     saveBasket(basket);
 }
 
@@ -62,16 +61,15 @@ function removeFromBasket(product, color) {
  *  si la quantité du produit est inférieur ou égal à 0, je le supprime du panier avec la fonction removeFromBasket
  * sinon je sauvegarde le panier avec la nouvelle quantité
  */
-function changeQuantity(product, quantity) {
+function changeQuantity(product, quantity, color) {
     let basket = getBasket();
-    let foundProduct = basket.find(p => p.idProduct == product);
+    let foundProduct = basket.find(p => p.idProduct === product && p.colors === color);
 
     // console.log(product);
     if(foundProduct != undefined) {
         foundProduct.quantity = parseInt(quantity);
-        console.log(quantity);
         if(foundProduct.quantity <= 0) {
-            removeFromBasket(foundProduct);
+            removeFromBasket(product, color);
         } else {
             saveBasket(basket);
         }

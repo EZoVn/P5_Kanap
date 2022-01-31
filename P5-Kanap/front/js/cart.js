@@ -72,8 +72,8 @@ fetch(url)
                     input.setAttribute('class', "itemQuantity");
 
 
-                    // input.setAttribute('name', "itemQuantity");
-                    input.setAttribute('name', `${produit.idProduct}`);
+                    input.setAttribute('name', "itemQuantity");
+                    // input.setAttribute('name', `${produit.idProduct}`);
                     input.setAttribute('min', "1");
                     input.setAttribute('max', "100");
                     input.setAttribute('value', `${produit.quantity}`);
@@ -92,37 +92,38 @@ fetch(url)
             }
             
         })
-        /**recherche de l'evenement change sur l'input
-        *je n'arrive pas a réccuperer l'idProduit ni la couleur a modifer
-        *donc ma modification augmente le premier avec l'id ajouter dans name
-        *
-        * Comment retrouver le bon bouton input selectionner    ???
-        * est-ce qu'on peut remonter dans la div article afin de reccuperer data-id et data-color ??
-        */
         .then(item => {
-            const t = document.querySelectorAll('.itemQuantity');
-            console.log(t);
-            t.forEach( item => {
-                const data = document.querySelector('.cart__item').innerText;
-                item.addEventListener('change', event => {
-                    event.preventDefault();
-                    console.log(data);
-                    console.log(item.value);
-                    console.log(item.name);
-                    changeQuantity(item.name, item.value);
-
-                })
-            })
+            const itemQuantity = document.querySelectorAll('.itemQuantity');
+            const data = document.querySelectorAll('.cart__item');
             const del = document.querySelectorAll('.deleteItem');
-            del.forEach(item => {
 
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    console.log(e);
-                    // il faut reccuperer la couleur dabord
-                    removeFromBasket(item.idProduct, item.colors);
-                })
-            })
+            /**---addEventListener---
+             * boucle for qui va marqué data[i] à chaque tour
+             * function avec un paramètre qui marque l'évenement afin de le retrouver
+             * appel de la fonction changeQuantity avec id, quantity, color en paramètre
+             * 
+             * fonctionnement identique pour supprimer un canapé du panier
+             * ne fonctionne pas encore supprime tout
+             */
+            for(let i = 0; i < data.length; i++) {
+                (function(i) {
+                    itemQuantity[i].addEventListener("change", function(e) {
+                        e.preventDefault();
+                        console.log(data[i].dataset.id);
+                        console.log(data[i].dataset.color);
+                        console.log(itemQuantity[i].value);
+                        changeQuantity(data[i].dataset.id, itemQuantity[i].value, data[i].dataset.color);
+                    });
+                    del[i].addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log(data[i].dataset.id);
+                        console.log(data[i].dataset.color);
+                        removeFromBasket(data[i].dataset.id, data[i].dataset.color);
+                    });
+
+                })(i);
+            }
+
             /** /----------------- Prix total --------------------------\
             *Je récupere le prix de chaque élément du panier
             *Je l'additionne à totalPrice

@@ -1,4 +1,4 @@
-// utiliser URLSearchparams pour extraire l'id depuis l'url et avec .get je cible ce qui se trouve apres id =
+// utiliser URLSearchparams pour extraire l'id depuis l'url et avec .get je cible ce qui se trouve apres id=
 const queryString = new URLSearchParams(document.location.search);
 const leId = queryString.get("id");
 
@@ -29,7 +29,12 @@ fetch(`http://localhost:3000/api/products/${leId}`)
             color.appendChild(option);
      })
 })
-    // serait-il possible d'ajouter un titre a la page dans le head
+    // serait-il possible d'ajouter un titre a la page dans le head ???
+    // ajouter une exception pour obliger a selectionner une couleur 
+    // 
+    // ?????????????????????????????????????????
+    // 
+    // possible d'ajouter un produit sans couleur
 
 const element = document.getElementById('addToCart');
 element.addEventListener('click', (e) => {
