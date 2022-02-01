@@ -37,14 +37,6 @@ fetch("http://localhost:3000/api/products")
             p.setAttribute('class', "productDescription")
             article.appendChild(p).textContent = `${product.description}`;
             
-          // Version rapide avec content ou innnerHtml pour ajouter un bloc de code entier
-          //   content += `<a href="./product.html?id=${product._id}">
-          //   <article>
-          //     <img src="${product.imageUrl}" alt="${product.altTxt}">
-          //     <h3 class="productName">${product.name}</h3>
-          //     <p class="productDescription">${product.description}</p>
-          //   </article>
-          // </a>`;
         }
         // document.querySelector('.items').innerHTML = content;
     });

@@ -1,4 +1,5 @@
 let basket = getBasket();
+
 // affiche un tableau de mon panier
 console.table(basket);
 
@@ -13,10 +14,8 @@ fetch(url)
     .then(response => response.json())
     .then(data => {
         for(let product of data){
-            for(let produit of basket){
+            for(let produit of basket) {
                 if(produit.idProduct === product._id) {
-
-                    /**Version createElement et appendChild plus maintenable que la version innerHTML*/
 
                     /**--article--*/
                     const cart__items = document.getElementById('cart__items');
@@ -50,8 +49,6 @@ fetch(url)
                     const pColor = document.createElement('p');
                     cart__item__content__description.appendChild(pColor).textContent = `${produit.colors}`;
                     const pQuantityPrice = document.createElement('p');
-                    // class ajouter
-                    pQuantityPrice.setAttribute('class', 'pQuantityPrice');
                     cart__item__content__description.appendChild(pQuantityPrice).textContent = `${produit.quantity * product.price} €`;
                     
                     /**--settings--*/
@@ -73,7 +70,6 @@ fetch(url)
 
 
                     input.setAttribute('name', "itemQuantity");
-                    // input.setAttribute('name', `${produit.idProduct}`);
                     input.setAttribute('min', "1");
                     input.setAttribute('max', "100");
                     input.setAttribute('value', `${produit.quantity}`);
@@ -95,33 +91,26 @@ fetch(url)
         .then(item => {
             const itemQuantity = document.querySelectorAll('.itemQuantity');
             const data = document.querySelectorAll('.cart__item');
-            const del = document.querySelectorAll('.deleteItem');
+            const del = document.getElementsByClassName('deleteItem');
 
             /**---addEventListener---
              * boucle for qui va marqué data[i] à chaque tour
-             * function avec un paramètre qui marque l'évenement afin de le retrouver
              * appel de la fonction changeQuantity avec id, quantity, color en paramètre
              * 
              * fonctionnement identique pour supprimer un canapé du panier
-             * ne fonctionne pas encore supprime tout
              */
             for(let i = 0; i < data.length; i++) {
-                (function(i) {
-                    itemQuantity[i].addEventListener("change", function(e) {
+                itemQuantity[i].addEventListener("change", function(e) {
+                    e.preventDefault();
+                    changeQuantity(data[i].dataset.id, itemQuantity[i].value, data[i].dataset.color);
+                });
+                del[i].addEventListener('click', function(e) {
                         e.preventDefault();
-                        console.log(data[i].dataset.id);
-                        console.log(data[i].dataset.color);
-                        console.log(itemQuantity[i].value);
-                        changeQuantity(data[i].dataset.id, itemQuantity[i].value, data[i].dataset.color);
-                    });
-                    del[i].addEventListener('click', function(e) {
-                        e.preventDefault();
-                        console.log(data[i].dataset.id);
-                        console.log(data[i].dataset.color);
-                        removeFromBasket(data[i].dataset.id, data[i].dataset.color);
-                    });
-
-                })(i);
+                        const color = data[i].dataset.color;
+                        const id = data[i].dataset.id;
+                        console.log(color, id);
+                        removeFromBasket(id, color);
+                });
             }
 
             /** /----------------- Prix total --------------------------\
