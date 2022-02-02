@@ -13,80 +13,77 @@ const url = `http://localhost:3000/api/products`;
 fetch(url)
     .then(response => response.json())
     .then(data => {
-        for(let product of data){
             for(let produit of basket) {
-                if(produit.idProduct === product._id) {
+                let product = data.find(p => p._id == produit.idProduct);
+                /**--article--*/
+                const cart__items = document.getElementById('cart__items');
+                let article = document.createElement('article');
+                article.setAttribute('class', 'cart__item');
+                article.setAttribute('data-id', `${produit.idProduct}`);
+                article.setAttribute('data-color', `${produit.colors}`);
+                cart__items.appendChild(article);
 
-                    /**--article--*/
-                    const cart__items = document.getElementById('cart__items');
-                    let article = document.createElement('article');
-                    article.setAttribute('class', 'cart__item');
-                    article.setAttribute('data-id', `${produit.idProduct}`);
-                    article.setAttribute('data-color', `${produit.colors}`);
-                    cart__items.appendChild(article);
+                /**--cart__item__img--*/
+                const cart__item__img = document.createElement('div');
+                cart__item__img.setAttribute('class', 'cart__item__img');
+                article.appendChild(cart__item__img);
+                
+                const img = document.createElement('img');
+                img.setAttribute("src", `${product.imageUrl}`);
+                img.setAttribute("alt", `${product.altTxt}`);
+                cart__item__img.appendChild(img);
 
-                    /**--cart__item__img--*/
-                    const cart__item__img = document.createElement('div');
-                    cart__item__img.setAttribute('class', 'cart__item__img');
-                    article.appendChild(cart__item__img);
-                    
-                    const img = document.createElement('img');
-                    img.setAttribute("src", `${product.imageUrl}`);
-                    img.setAttribute("alt", `${product.altTxt}`);
-                    cart__item__img.appendChild(img);
+                /**--cart__item__content--*/
+                const cart__item__content = document.createElement('div');
+                cart__item__content.setAttribute('class', 'cart__item__content');
+                article.appendChild(cart__item__content);
+                
+                /**--descritpion--*/
+                const cart__item__content__description = document.createElement('div');
+                cart__item__content__description.setAttribute('class', 'cart__item__content__description');
+                cart__item__content.appendChild(cart__item__content__description);
+                const h2 = document.createElement('h2');
+                cart__item__content__description.appendChild(h2).textContent = `${produit.name}`;
+                const pColor = document.createElement('p');
+                cart__item__content__description.appendChild(pColor).textContent = `${produit.colors}`;
+                const pQuantityPrice = document.createElement('p');
 
-                    /**--cart__item__content--*/
-                    const cart__item__content = document.createElement('div');
-                    cart__item__content.setAttribute('class', 'cart__item__content');
-                    article.appendChild(cart__item__content);
-                    
-                    /**--descritpion--*/
-                    const cart__item__content__description = document.createElement('div');
-                    cart__item__content__description.setAttribute('class', 'cart__item__content__description');
-                    cart__item__content.appendChild(cart__item__content__description);
-                    const h2 = document.createElement('h2');
-                    cart__item__content__description.appendChild(h2).textContent = `${produit.name}`;
-                    const pColor = document.createElement('p');
-                    cart__item__content__description.appendChild(pColor).textContent = `${produit.colors}`;
-                    const pQuantityPrice = document.createElement('p');
-                    cart__item__content__description.appendChild(pQuantityPrice).textContent = `${produit.quantity * product.price} €`;
-                    
-                    /**--settings--*/
-                    const cart__item__content__settings = document.createElement('div');
-                    cart__item__content__settings.setAttribute('class', 'cart__item__content__settings');
-                    cart__item__content.appendChild(cart__item__content__settings);
+                pQuantityPrice.setAttribute('class', 'pQuantityPrice');
+                cart__item__content__description.appendChild(pQuantityPrice).textContent = `${produit.quantity * product.price} €`;
+                
+                /**--settings--*/
+                const cart__item__content__settings = document.createElement('div');
+                cart__item__content__settings.setAttribute('class', 'cart__item__content__settings');
+                cart__item__content.appendChild(cart__item__content__settings);
 
-                    const cart__item__content__settings__quantity = document.createElement('div');
-                    cart__item__content__settings__quantity.setAttribute('class', 'cart__item__content__settings__quantity');
-                    cart__item__content__settings.appendChild(cart__item__content__settings__quantity);
+                const cart__item__content__settings__quantity = document.createElement('div');
+                cart__item__content__settings__quantity.setAttribute('class', 'cart__item__content__settings__quantity');
+                cart__item__content__settings.appendChild(cart__item__content__settings__quantity);
 
-                    const pQuantity = document.createElement('p');
-                    pQuantity.textContent = 'Qté : ';
-                    cart__item__content__settings__quantity.appendChild(pQuantity);
-                    
-                    const input = document.createElement('input');
-                    input.setAttribute('type', "number");
-                    input.setAttribute('class', "itemQuantity");
+                const pQuantity = document.createElement('p');
+                pQuantity.textContent = 'Qté : ';
+                cart__item__content__settings__quantity.appendChild(pQuantity);
+                
+                const input = document.createElement('input');
+                input.setAttribute('type', "number");
+                input.setAttribute('class', "itemQuantity");
 
 
-                    input.setAttribute('name', "itemQuantity");
-                    input.setAttribute('min', "1");
-                    input.setAttribute('max', "100");
-                    input.setAttribute('value', `${produit.quantity}`);
-                    cart__item__content__settings__quantity.appendChild(input);
-                    
-                    const cart__item__content__settings__delete = document.createElement('div');
-                    cart__item__content__settings__delete.setAttribute('class', 'cart__item__content__settings__delete');
-                    cart__item__content__settings.appendChild(cart__item__content__settings__delete);
+                input.setAttribute('name', "itemQuantity");
+                input.setAttribute('min', "1");
+                input.setAttribute('max', "100");
+                input.setAttribute('value', `${produit.quantity}`);
+                cart__item__content__settings__quantity.appendChild(input);
+                
+                const cart__item__content__settings__delete = document.createElement('div');
+                cart__item__content__settings__delete.setAttribute('class', 'cart__item__content__settings__delete');
+                cart__item__content__settings.appendChild(cart__item__content__settings__delete);
 
-                    const pSupprimer = document.createElement('p');
-                    pSupprimer.setAttribute('class', 'deleteItem')
-                    pSupprimer.textContent = 'Supprimer'
-                    cart__item__content__settings__delete.appendChild(pSupprimer);                           
-                    }
-                }
+                const pSupprimer = document.createElement('p');
+                pSupprimer.setAttribute('class', 'deleteItem')
+                pSupprimer.textContent = 'Supprimer'
+                cart__item__content__settings__delete.appendChild(pSupprimer);                           
             }
-            
         })
         .then(item => {
             const itemQuantity = document.querySelectorAll('.itemQuantity');
@@ -130,3 +127,86 @@ fetch(url)
 /* /------------ Article total ---------------------\ */
 let totalArticle = getNumberProduct();
 document.getElementById('totalQuantity').innerText += `${totalArticle}`;
+
+/** /---------------------------Formulaire--------------------------\ */
+let form = document.querySelector('.cart__order__form');
+
+// let contact = {};
+// console.log(contact);
+
+form.firstName.addEventListener('input', function () {
+    let msg = document.getElementById('firstNameErrorMsg');
+    let regExp = /^[a-zA-Z-éèêç ]{2,20}$/g;
+    validation(this, regExp, msg);
+});
+form.lastName.addEventListener('input', function () {
+    let msg = document.getElementById('lastNameErrorMsg');
+    let regExp = /^[a-zA-Z-éèêç ]{3,14}$/g;
+    validation(this, regExp, msg);  
+});
+form.address.addEventListener('input', function () {
+    let msg = document.getElementById('addressErrorMsg');
+    let regExp = /^[a-zA-Z0-9-, ]{3,64}$/g;
+    validation(this, regExp, msg);  
+});
+form.city.addEventListener('input', function () {
+    let msg = document.getElementById('cityErrorMsg');
+    let regExp = /^[a-zA-Z ]{3,24}$/g;
+    validation(this, regExp, msg);  
+});
+
+/** Fonction de validation input
+ * input, le regExp du champs, msg de validation
+ */
+function validation(input,regExp, msg) {
+    if(regExp.test(input.value)){
+        msg.textContent = 'Le champ est valide.';
+    } else if(input.value.trim() == "") {
+        msg.textContent = 'Le champ est vide.';
+    } else{
+        msg.textContent = 'Le champ n\'est pas valide.';
+    }
+}
+
+form.email.addEventListener('input', function() {
+    validEmail(this);
+});
+const validEmail = function(inputEmail) {
+    // creation de la reg exp validation email
+    let emailRegExp = new RegExp(
+        `^[a-zA-Z0-9.-_]+@{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$`, 'g'
+    );
+    let msg = document.getElementById('emailErrorMsg');
+    if(emailRegExp.test(inputEmail.value)) {
+        msg.textContent = `L'email est valide`;
+    } else {
+        msg.textContent = `L'email est incomplet. Exemple : monEmail@mail.fr`; 
+    }
+};
+/** récuperation des données */
+let contact = {
+    firstName : firstName,
+    lastName : lastName,
+    address : address,
+    city : city,
+    email : email
+}
+form.order.addEventListener('click', function(e) {
+    let valid = form.checkValidity();
+    
+    console.log(valid);
+    if(!valid) {
+        alert('Un des champs n\'est pas valide.') ;
+    } else {
+        // Je recupère bien le panier et les éléments contact
+        // reste a les envoyer
+        console.log(basket);
+        console.log(contact.firstName.value);
+        console.log(contact.lastName.value);
+        console.log(contact.address.value);
+        console.log(contact.city.value);
+        console.log(contact.email.value);
+        
+    }
+    
+})

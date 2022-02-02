@@ -8,16 +8,14 @@ class Product{
 fetch("http://localhost:3000/api/products")
     .then( data => data.json())
     .then( jsonListProduct => {
-        // let content = "";
         for(let jsonProduct of jsonListProduct){
             let product = new Product(jsonProduct);
-            // pour retrouver l'id du produit j'ai ajouter id= dans le lien pour reccupérer ce qui se trouve après.
-
-            // Version createElement et appendChild un peu longue mais maintenable facilement
+            
             const item = document.getElementById('items');
-
+            
             const a = document.createElement('a');
             item.appendChild(a);
+            // pour retrouver l'id du produit j'ai ajouter id= dans le lien pour reccupérer ce qui se trouve après.
             a.setAttribute("href", `./product.html?id=${product._id}`);
 
             const article = document.createElement('article');
@@ -36,9 +34,7 @@ fetch("http://localhost:3000/api/products")
             const p = document.createElement('p');
             p.setAttribute('class', "productDescription")
             article.appendChild(p).textContent = `${product.description}`;
-            
         }
-        // document.querySelector('.items').innerHTML = content;
     });
     
    

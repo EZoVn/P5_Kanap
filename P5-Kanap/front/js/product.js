@@ -4,11 +4,12 @@ const leId = queryString.get("id");
 
 console.log(leId);
 
-
 // id reccuperer maintgenant j'affiche les informations correspondant au produit
 fetch(`http://localhost:3000/api/products/${leId}`)
     .then( res => res.json())
     .then(produit => {
+
+
         const item__img = document.querySelector('.item__img');
         
         const img = document.createElement('img');
@@ -48,5 +49,12 @@ element.addEventListener('click', (e) => {
         idProduct : leId,
         colors : color,    
     }
-    addBasket(optionKanap, quantity, color);
+    if(!color) {
+        console.log(color);
+        alert('Choisissez une couleur');
+    } else if(quantity <= 0) {
+        alert('Vous avez oublier d\'ajouter une quantité');
+    } else {
+        addBasket(optionKanap, quantity, color);
+    }
 });

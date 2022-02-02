@@ -24,7 +24,7 @@ function getBasket() {
 /**---Ajout au panier---
 *récupère le panier
 *foundProduct va comparer les id et colors afin de lier les informations du produit charger dans ajouter au panier
-* Si le canapé est deja dans le panier j'incrémente la quantité séléctionner dans le tableau du produit avec le bon Id et Color
+*Si le canapé est deja dans le panier j'incrémente la quantité séléctionner dans le tableau du produit avec le bon Id et Color
 *Sinon je crée l'élément dans le tableau
 *sauvegarde dans le panier avec la fonction saveBasket
 */
@@ -41,10 +41,10 @@ function addBasket(product, quantity, color) {
     saveBasket(basket);
 }
 
-// ne fonctionne pas encore
 /**---Supprimer du panier---
  * récupère le panier
  * filtre les valeurs id et color envoyer en paramètre afin des les isolers du panier
+ * converti || OU en ET 
  * sauvegarde le panier sauf l'élément filtrer 
  */
 function removeFromBasket(product, color) {
@@ -53,12 +53,11 @@ function removeFromBasket(product, color) {
     saveBasket(basket);
 }
 
-// fonctionne uniquement sur le premier article avec l'id reccuperer sans data-id, manque la couleur
 /**---Change quantiter--- 
  * récupère le panier
- * recherche le bon produit avec l'id
+ * recherche le bon produit avec l'id et la couleur
  * si le produit existe je met la quantité ajouter en paramètre sur le produit
- *  si la quantité du produit est inférieur ou égal à 0, je le supprime du panier avec la fonction removeFromBasket
+ * si la quantité du produit est inférieur ou égal à 0, je le supprime du panier avec la fonction removeFromBasket
  * sinon je sauvegarde le panier avec la nouvelle quantité
  */
 function changeQuantity(product, quantity, color) {
