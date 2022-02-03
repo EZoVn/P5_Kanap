@@ -30,7 +30,7 @@ function getBasket() {
 */
 function addBasket(product, quantity, color) {
     let basket = getBasket();
-    let foundProduct = basket.find(p => p.idProduct == product.idProduct && p.colors == product.colors);
+    let foundProduct = basket.find(p => p._id == product._id && p.colors == product.colors);
     if(foundProduct != undefined) {
         foundProduct.quantity  += quantity;
     } 
@@ -49,7 +49,7 @@ function addBasket(product, quantity, color) {
  */
 function removeFromBasket(product, color) {
     let basket = getBasket();
-    basket = basket.filter(p => p.idProduct != product || p.colors != color);
+    basket = basket.filter(p => p._id != product || p.colors != color);
     saveBasket(basket);
 }
 
@@ -62,7 +62,7 @@ function removeFromBasket(product, color) {
  */
 function changeQuantity(product, quantity, color) {
     let basket = getBasket();
-    let foundProduct = basket.find(p => p.idProduct === product && p.colors === color);
+    let foundProduct = basket.find(p => p._id === product && p.colors === color);
 
     // console.log(product);
     if(foundProduct != undefined) {

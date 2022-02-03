@@ -46,9 +46,10 @@ element.addEventListener('click', (e) => {
     let quantity = parseInt(document.querySelector('#quantity').value);
     let optionKanap = {
         name : name,
-        idProduct : leId,
+        _id : leId,
         colors : color,    
     }
+    console.log(optionKanap);
     if(!color) {
         console.log(color);
         alert('Choisissez une couleur');

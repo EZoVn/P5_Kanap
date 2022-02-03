@@ -1,7 +1,7 @@
 let basket = getBasket();
 
 // affiche un tableau de mon panier
-console.table(basket);
+// console.table(basket);
 
 const url = `http://localhost:3000/api/products`;
 /** /-----------------Affichage des produits du panier ---------------------------\
@@ -14,12 +14,12 @@ fetch(url)
     .then(response => response.json())
     .then(data => {
             for(let produit of basket) {
-                let product = data.find(p => p._id == produit.idProduct);
+                let product = data.find(p => p._id == produit._id);
                 /**--article--*/
                 const cart__items = document.getElementById('cart__items');
                 let article = document.createElement('article');
                 article.setAttribute('class', 'cart__item');
-                article.setAttribute('data-id', `${produit.idProduct}`);
+                article.setAttribute('data-id', `${produit._id}`);
                 article.setAttribute('data-color', `${produit.colors}`);
                 cart__items.appendChild(article);
 
@@ -120,9 +120,9 @@ fetch(url)
             price.forEach(priceTot => {
                 let price = parseInt(priceTot.innerText);
                 totalPrice += price;
-            })
+            });
             document.getElementById('totalPrice').textContent = `${totalPrice}`;           
-        })
+        });
 
 /* /------------ Article total ---------------------\ */
 let totalArticle = getNumberProduct();
@@ -166,7 +166,7 @@ function validation(input,regExp, msg) {
     } else{
         msg.textContent = 'Le champ n\'est pas valide.';
     }
-}
+};
 
 form.email.addEventListener('input', function() {
     validEmail(this);
@@ -174,7 +174,7 @@ form.email.addEventListener('input', function() {
 const validEmail = function(inputEmail) {
     // creation de la reg exp validation email
     let emailRegExp = new RegExp(
-        `^[a-zA-Z0-9.-_]+@{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$`, 'g'
+        `^[a-zA-Z0-9.-_]+@{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,3}$`, 'g'
     );
     let msg = document.getElementById('emailErrorMsg');
     if(emailRegExp.test(inputEmail.value)) {
@@ -184,29 +184,59 @@ const validEmail = function(inputEmail) {
     }
 };
 /** récuperation des données */
-let contact = {
-    firstName : firstName,
-    lastName : lastName,
-    address : address,
-    city : city,
-    email : email
-}
+let contact = {};
+let products = basket.map(basket => basket._id);
+console.log(products);
+let btn = document.getElementById('order');
 form.order.addEventListener('click', function(e) {
+    e.preventDefault();
+    // valid check juste si le champ est rempli 
     let valid = form.checkValidity();
-    
-    console.log(valid);
+    contact = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        address: address.value,
+        city: city.value,
+        email: email.value
+    };
+    console.log(contact);
     if(!valid) {
-        alert('Un des champs n\'est pas valide.') ;
+        alert('Un des champs n\'est pas rempli.') ;
     } else {
         // Je recupère bien le panier et les éléments contact
         // reste a les envoyer
-        console.log(basket);
-        console.log(contact.firstName.value);
-        console.log(contact.lastName.value);
-        console.log(contact.address.value);
-        console.log(contact.city.value);
-        console.log(contact.email.value);
-        
+
+        // const order = {
+        //     contact : {
+        //         firstName: firstName.value,
+        //         lastName: lastName.value,
+        //         address: address.value,
+        //         city: city.value,
+        //         email: email.value
+        //     },
+        //     products: products
+        // }
+        // console.log(order);
+        console.log(contact);
+        console.log(products);
+        fetch("http://localhost:3000/api/products/order", {
+            method: "POST",
+            headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'aplication/json'
+        },
+            body: JSON.stringify({contact, products})
+            // body: JSON.stringify(order)
+        })
+        .then(res => res.json())
+        .then(data => {
+ 
+            console.log(data);
+            console.log(data.orderId);
+            console.log(data._id);
+            console.log(data.contact);
+            // window.location.href = './confirmation.html?';
+        })
+        .catch (err => console.log(err))
     }
-    
-})
+});
