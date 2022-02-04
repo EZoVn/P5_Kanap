@@ -187,56 +187,45 @@ const validEmail = function(inputEmail) {
 let contact = {};
 let products = basket.map(basket => basket._id);
 console.log(products);
-let btn = document.getElementById('order');
+console.log(contact);
 form.order.addEventListener('click', function(e) {
     e.preventDefault();
     // valid check juste si le champ est rempli 
     let valid = form.checkValidity();
     contact = {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        address: address.value,
-        city: city.value,
-        email: email.value
+        'firstName': firstName.value,
+        'lastName': lastName.value,
+        'address': address.value,
+        'city': city.value,
+        'email': email.value
     };
-    console.log(contact);
+  
+    console.log(contact.firstName);
     if(!valid) {
         alert('Un des champs n\'est pas rempli.') ;
     } else {
-        // Je recupère bien le panier et les éléments contact
-        // reste a les envoyer
-
-        // const order = {
-        //     contact : {
-        //         firstName: firstName.value,
-        //         lastName: lastName.value,
-        //         address: address.value,
-        //         city: city.value,
-        //         email: email.value
-        //     },
-        //     products: products
-        // }
-        // console.log(order);
-        console.log(contact);
-        console.log(products);
         fetch("http://localhost:3000/api/products/order", {
             method: "POST",
+            body: JSON.stringify({contact, products}),
+            // body: JSON.stringify(order)
             headers: {
         'Accept': 'application/json',
         'Content-Type': 'aplication/json'
-        },
-            body: JSON.stringify({contact, products})
-            // body: JSON.stringify(order)
+        }
         })
         .then(res => res.json())
-        .then(data => {
- 
-            console.log(data);
-            console.log(data.orderId);
-            console.log(data._id);
-            console.log(data.contact);
-            // window.location.href = './confirmation.html?';
+        .then(() => {
+            console.log(contact);
+            console.log(products);
         })
+        // .then(data => {
+ 
+        //     console.log(data);
+        //     // console.log(data.orderId);
+        //     // console.log(orderId);
+        //     console.log(data.contact);
+        //     // window.location.href = './confirmation.html?';
+        // })
         .catch (err => console.log(err))
     }
 });
