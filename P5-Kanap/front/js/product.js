@@ -9,7 +9,6 @@ fetch(`http://localhost:3000/api/products/${leId}`)
     .then( res => res.json())
     .then(produit => {
 
-
         const item__img = document.querySelector('.item__img');
         
         const img = document.createElement('img');
@@ -30,12 +29,6 @@ fetch(`http://localhost:3000/api/products/${leId}`)
             color.appendChild(option);
      })
 })
-    // serait-il possible d'ajouter un titre a la page dans le head ???
-    // ajouter une exception pour obliger a selectionner une couleur 
-    // 
-    // ?????????????????????????????????????????
-    // 
-    // possible d'ajouter un produit sans couleur
 
 const element = document.getElementById('addToCart');
 element.addEventListener('click', (e) => {

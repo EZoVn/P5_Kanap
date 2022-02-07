@@ -1,8 +1,5 @@
 let basket = getBasket();
 
-// affiche un tableau de mon panier
-// console.table(basket);
-
 const url = `http://localhost:3000/api/products`;
 /** /-----------------Affichage des produits du panier ---------------------------\
 *Je fais une requête fetch de tout les produits avec une boucle
@@ -131,25 +128,27 @@ document.getElementById('totalQuantity').innerText += `${totalArticle}`;
 /** /---------------------------Formulaire--------------------------\ */
 let form = document.querySelector('.cart__order__form');
 
-// let contact = {};
-// console.log(contact);
 
-form.firstName.addEventListener('input', function () {
+let firstName = document.getElementById('firstName');
+firstName.addEventListener('input', function () {
     let msg = document.getElementById('firstNameErrorMsg');
     let regExp = /^[a-zA-Z-éèêç ]{2,20}$/g;
     validation(this, regExp, msg);
 });
-form.lastName.addEventListener('input', function () {
+let lastName = document.getElementById('lastName');
+lastName.addEventListener('input', function () {
     let msg = document.getElementById('lastNameErrorMsg');
     let regExp = /^[a-zA-Z-éèêç ]{3,14}$/g;
     validation(this, regExp, msg);  
 });
-form.address.addEventListener('input', function () {
+let address = document.getElementById('address');
+address.addEventListener('input', function () {
     let msg = document.getElementById('addressErrorMsg');
     let regExp = /^[a-zA-Z0-9-, ]{3,64}$/g;
     validation(this, regExp, msg);  
 });
-form.city.addEventListener('input', function () {
+let city = document.getElementById('city');
+city.addEventListener('input', function () {
     let msg = document.getElementById('cityErrorMsg');
     let regExp = /^[a-zA-Z ]{3,24}$/g;
     validation(this, regExp, msg);  
@@ -168,7 +167,8 @@ function validation(input,regExp, msg) {
     }
 };
 
-form.email.addEventListener('input', function() {
+let email = document.getElementById('email');
+email.addEventListener('input', function() {
     validEmail(this);
 });
 const validEmail = function(inputEmail) {
@@ -183,49 +183,45 @@ const validEmail = function(inputEmail) {
         msg.textContent = `L'email est incomplet. Exemple : monEmail@mail.fr`; 
     }
 };
-/** récuperation des données */
-let contact = {};
+/** récuperation des ID */
 let products = basket.map(basket => basket._id);
-console.log(products);
-console.log(contact);
-form.order.addEventListener('click', function(e) {
+
+let order = document.getElementById("order");
+order.addEventListener('click', function(e) {
     e.preventDefault();
     // valid check juste si le champ est rempli 
     let valid = form.checkValidity();
-    contact = {
-        'firstName': firstName.value,
-        'lastName': lastName.value,
-        'address': address.value,
-        'city': city.value,
-        'email': email.value
+    let contact = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        address: address.value,
+        city: city.value,
+        email: email.value
     };
-  
-    console.log(contact.firstName);
+
+    const order = {contact, products}
+
     if(!valid) {
         alert('Un des champs n\'est pas rempli.') ;
     } else {
-        fetch("http://localhost:3000/api/products/order", {
-            method: "POST",
-            body: JSON.stringify({contact, products}),
-            // body: JSON.stringify(order)
+
+        fetch(`http://localhost:3000/api/products/order`, {
+            method: 'POST',
+            body: JSON.stringify(order),
             headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'aplication/json'
-        }
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
         })
-        .then(res => res.json())
-        .then(() => {
-            console.log(contact);
-            console.log(products);
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            console.log(data.orderId);
+            // je récupere le orderId et l'ajoute dans l'url pour le retrouver sur la page de confirmation
+            window.location.href = `./confirmation.html?${data.orderId}`;
+            // Vide le panier une fois la commande valider
+            localStorage.clear();
         })
-        // .then(data => {
- 
-        //     console.log(data);
-        //     // console.log(data.orderId);
-        //     // console.log(orderId);
-        //     console.log(data.contact);
-        //     // window.location.href = './confirmation.html?';
-        // })
-        .catch (err => console.log(err))
+        .catch (err => console.log(err))    
     }
 });
