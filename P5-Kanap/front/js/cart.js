@@ -132,13 +132,13 @@ let form = document.querySelector('.cart__order__form');
 
 form.firstName.addEventListener('input', function () {
     let msg = document.getElementById('firstNameErrorMsg');
-    let regExp = /^[a-zA-Z-éèêç\s]{2,20}$/g;
+    let regExp = /^[a-zA-Z\-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s]{2,20}$/g;
     validation(this, regExp, msg);
     // allLetter(this);
 });
 form.lastName.addEventListener('input', function () {
     let msg = document.getElementById('lastNameErrorMsg');
-    let regExp = /^[a-zA-Z-éèêç]{3,14}$/g;
+    let regExp = /^[a-zA-Z\-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s]{3,14}$/g;
     validation(this, regExp, msg);  
 });
 form.address.addEventListener('input', function () {
@@ -148,7 +148,7 @@ form.address.addEventListener('input', function () {
 });
 form.city.addEventListener('input', function () {
     let msg = document.getElementById('cityErrorMsg');
-    let regExp = /^[a-zA-Z\s]{3,24}$/g;
+    let regExp = /^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s]{3,24}$/g;
     validation(this, regExp, msg);  
 });
 
@@ -169,7 +169,7 @@ function validation(input,regExp, msg) {
  * on check si le champs n'a pas de chiffres
  */
 function allLetter(inputtxt) {
-    var letters = /^[A-Za-z]+$/;
+    var letters = /^[A-Za-z\-áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/;
     if(inputtxt.value.match(letters)) {
         return true;
     } else {
