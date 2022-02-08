@@ -1,3 +1,4 @@
+/**Récupère le panier */
 let basket = getBasket();
 
 const url = `http://localhost:3000/api/products`;
@@ -126,36 +127,33 @@ let totalArticle = getNumberProduct();
 document.getElementById('totalQuantity').innerText += `${totalArticle}`;
 
 /** /---------------------------Formulaire--------------------------\ */
+
 let form = document.querySelector('.cart__order__form');
 
-
-let firstName = document.getElementById('firstName');
-firstName.addEventListener('input', function () {
+form.firstName.addEventListener('input', function () {
     let msg = document.getElementById('firstNameErrorMsg');
-    let regExp = /^[a-zA-Z-éèêç ]{2,20}$/g;
+    let regExp = /^[a-zA-Z-éèêç\s]{2,20}$/g;
     validation(this, regExp, msg);
+    // allLetter(this);
 });
-let lastName = document.getElementById('lastName');
-lastName.addEventListener('input', function () {
+form.lastName.addEventListener('input', function () {
     let msg = document.getElementById('lastNameErrorMsg');
-    let regExp = /^[a-zA-Z-éèêç ]{3,14}$/g;
+    let regExp = /^[a-zA-Z-éèêç]{3,14}$/g;
     validation(this, regExp, msg);  
 });
-let address = document.getElementById('address');
-address.addEventListener('input', function () {
+form.address.addEventListener('input', function () {
     let msg = document.getElementById('addressErrorMsg');
     let regExp = /^[a-zA-Z0-9-, ]{3,64}$/g;
     validation(this, regExp, msg);  
 });
-let city = document.getElementById('city');
-city.addEventListener('input', function () {
+form.city.addEventListener('input', function () {
     let msg = document.getElementById('cityErrorMsg');
-    let regExp = /^[a-zA-Z ]{3,24}$/g;
+    let regExp = /^[a-zA-Z\s]{3,24}$/g;
     validation(this, regExp, msg);  
 });
 
 /** Fonction de validation input
- * input, le regExp du champs, msg de validation
+ * input, le regExp, msg de validation
  */
 function validation(input,regExp, msg) {
     if(regExp.test(input.value)){
@@ -167,8 +165,19 @@ function validation(input,regExp, msg) {
     }
 };
 
-let email = document.getElementById('email');
-email.addEventListener('input', function() {
+/** Fonction pour prenom, nom et ville
+ * on check si le champs n'a pas de chiffres
+ */
+function allLetter(inputtxt) {
+    var letters = /^[A-Za-z]+$/;
+    if(inputtxt.value.match(letters)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+form.email.addEventListener('input', function() {
     validEmail(this);
 });
 const validEmail = function(inputEmail) {
@@ -190,19 +199,20 @@ let order = document.getElementById("order");
 order.addEventListener('click', function(e) {
     e.preventDefault();
     // valid check juste si le champ est rempli 
+
+    /**Récupère les valeurs entrer dans le formulaire */
     let valid = form.checkValidity();
     let contact = {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        address: address.value,
-        city: city.value,
-        email: email.value
+        firstName: form.firstName.value,
+        lastName: form.lastName.value,
+        address: form.address.value,
+        city: form.city.value,
+        email: form.email.value
     };
-
     const order = {contact, products}
-
-    if(!valid) {
-        alert('Un des champs n\'est pas rempli.') ;
+    
+    if(!valid || !allLetter(form.firstName) || !allLetter(form.lastName) || !allLetter(form.city)) {
+        alert('Un des champs est mal rempli ou n\'est pas rempli.');
     } else {
 
         fetch(`http://localhost:3000/api/products/order`, {
@@ -215,11 +225,10 @@ order.addEventListener('click', function(e) {
         })
         .then((res) => res.json())
         .then((data) => {
-            console.log(data);
-            console.log(data.orderId);
             // je récupere le orderId et l'ajoute dans l'url pour le retrouver sur la page de confirmation
-            window.location.href = `./confirmation.html?${data.orderId}`;
+            window.location.href = `./confirmation.html?orderId=${data.orderId}`;
             // Vide le panier une fois la commande valider
+            
             localStorage.clear();
         })
         .catch (err => console.log(err))    

@@ -1,10 +1,11 @@
-// utiliser URLSearchparams pour extraire l'id depuis l'url et avec .get je cible ce qui se trouve apres id=
+/** Récupération de l'ID dans l'URL 
+ * utiliser URLSearchparams pour extraire l'id depuis l'url
+ * avec .get je cible ce qui se trouve apres id  
+ */
 const queryString = new URLSearchParams(document.location.search);
 const leId = queryString.get("id");
 
-console.log(leId);
-
-// id reccuperer maintgenant j'affiche les informations correspondant au produit
+/** id récupérer maintenant j'affiche les informations correspondant au produit */
 fetch(`http://localhost:3000/api/products/${leId}`)
     .then( res => res.json())
     .then(produit => {
@@ -30,6 +31,10 @@ fetch(`http://localhost:3000/api/products/${leId}`)
      })
 })
 
+/** J'écoute le clic du bouton Ajouter au panier 
+ *  Je récupère le nom, la couleur et la quantité du produit dans optionKanp
+ *  J'envoi les données dans le localStorage grace à ma fonction addBasket()
+*/
 const element = document.getElementById('addToCart');
 element.addEventListener('click', (e) => {
     e.preventDefault();
@@ -42,9 +47,7 @@ element.addEventListener('click', (e) => {
         _id : leId,
         colors : color,    
     }
-    console.log(optionKanap);
     if(!color) {
-        console.log(color);
         alert('Choisissez une couleur');
     } else if(quantity <= 0) {
         alert('Vous avez oublier d\'ajouter une quantité');

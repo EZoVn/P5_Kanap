@@ -4,7 +4,10 @@ class Product{
         jsonProduct && Object.assign(this, jsonProduct);
     }
 }
-// récuperation des données des produits et boucle pour répéter l'opération et affiché chaque produit
+/** récuperation des données des produits 
+ * boucle pour répéter l'opération à chaque produit
+ * affiché chaque produit avec les details
+ * */ 
 fetch("http://localhost:3000/api/products")
     .then( data => data.json())
     .then( jsonListProduct => {
@@ -36,5 +39,3 @@ fetch("http://localhost:3000/api/products")
             article.appendChild(p).textContent = `${product.description}`;
         }
     });
-    
-   
