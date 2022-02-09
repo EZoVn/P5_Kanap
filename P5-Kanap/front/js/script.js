@@ -1,21 +1,21 @@
 // Création d'un class qui va assigner chaque element de jsonProduct a this
-class Product{
-    constructor(jsonProduct){
+class Product {
+    constructor(jsonProduct) {
         jsonProduct && Object.assign(this, jsonProduct);
     }
 }
 /** récuperation des données des produits 
  * boucle pour répéter l'opération à chaque produit
  * affiché chaque produit avec les details
- * */ 
+ * */
 fetch("http://localhost:3000/api/products")
-    .then( data => data.json())
-    .then( jsonListProduct => {
-        for(let jsonProduct of jsonListProduct){
+    .then(data => data.json())
+    .then(jsonListProduct => {
+        for (let jsonProduct of jsonListProduct) {
             let product = new Product(jsonProduct);
-            
+
             const item = document.getElementById('items');
-            
+
             const a = document.createElement('a');
             item.appendChild(a);
             // pour retrouver l'id du produit j'ai ajouter id= dans le lien pour reccupérer ce qui se trouve après.
@@ -28,7 +28,7 @@ fetch("http://localhost:3000/api/products")
             img.setAttribute("src", `${product.imageUrl}`);
             img.setAttribute('alt', `${product.altTxt}`)
             article.appendChild(img);
-            
+
             const h3 = document.createElement('h3');
             h3.setAttribute('class', 'productName')
             h3.textContent = `${product.name}`;

@@ -13,12 +13,10 @@ function saveBasket(basket) {
 */
 function getBasket() {
     let basket = localStorage.getItem('basket');
-    // console.log(basket);
-    if(basket == null){
+    if (basket == null) {
         return [];
-    }else{
-        return JSON.parse(basket);
     }
+    return JSON.parse(basket);
 }
 
 /**---Ajout au panier---
@@ -28,12 +26,12 @@ function getBasket() {
 *Sinon je crée l'élément dans le tableau
 *sauvegarde dans le panier avec la fonction saveBasket
 */
-function addBasket(product, quantity, color) {
+function addBasket(product, quantity) {
     let basket = getBasket();
     let foundProduct = basket.find(p => p._id == product._id && p.colors == product.colors);
-    if(foundProduct != undefined) {
-        foundProduct.quantity  += quantity;
-    } 
+    if (foundProduct != undefined) {
+        foundProduct.quantity += quantity;
+    }
     else {
         product.quantity = quantity;
         basket.push(product);
@@ -65,14 +63,14 @@ function changeQuantity(product, quantity, color) {
     let foundProduct = basket.find(p => p._id === product && p.colors === color);
 
     // console.log(product);
-    if(foundProduct != undefined) {
+    if (foundProduct != undefined) {
         foundProduct.quantity = parseInt(quantity);
-        if(foundProduct.quantity <= 0) {
+        if (foundProduct.quantity <= 0) {
             removeFromBasket(product, color);
         } else {
             saveBasket(basket);
         }
-    } 
+    }
 }
 
 /**---Nombres total de produit---
