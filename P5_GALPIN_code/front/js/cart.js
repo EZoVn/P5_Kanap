@@ -98,12 +98,14 @@ fetch(url)
             itemQuantity[i].addEventListener("change", function (e) {
                 e.preventDefault();
                 changeQuantity(data[i].dataset.id, itemQuantity[i].value, data[i].dataset.color);
+                window.location.reload();
             });
             del[i].addEventListener('click', function (e) {
                 e.preventDefault();
                 const color = data[i].dataset.color;
                 const id = data[i].dataset.id;
                 removeFromBasket(id, color);
+                window.location.reload();
             });
         }
 
