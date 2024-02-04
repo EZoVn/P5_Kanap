@@ -1,7 +1,7 @@
 /**Récupère le panier */
 let basket = getBasket();
 
-const url = `http://localhost:3000/api/products`;
+const url = `https://kanap-ezo-api.vercel.app/api/products`;
 /** /-----------------Affichage des produits du panier ---------------------------\
 *Je fais une requête fetch de tout les produits avec une boucle
 *Je fais une seconde boucle avec les produits récuperer du panier
@@ -215,7 +215,7 @@ order.addEventListener('click', function (e) {
         alert('Un des champs est mal rempli ou n\'est pas rempli.');
     } else {
 
-        fetch(`http://localhost:3000/api/products/order`, {
+        fetch(`https://kanap-ezo-api.vercel.app/api/products/order`, {
             method: 'POST',
             body: JSON.stringify(order),
             headers: {

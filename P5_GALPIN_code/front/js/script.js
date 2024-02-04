@@ -8,7 +8,7 @@ class Product {
  * boucle pour répéter l'opération à chaque produit
  * affiché chaque produit avec les details
  * */
-fetch("http://localhost:3000/api/products")
+fetch("https://kanap-ezo-api.vercel.app/api/products")
     .then(data => data.json())
     .then(jsonListProduct => {
         for (let jsonProduct of jsonListProduct) {

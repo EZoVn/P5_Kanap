@@ -6,7 +6,7 @@ const queryString = new URLSearchParams(document.location.search);
 const leId = queryString.get("id");
 
 /** id récupérer maintenant j'affiche les informations correspondant au produit */
-fetch(`http://localhost:3000/api/products/${leId}`)
+fetch(`https://kanap-ezo-api.vercel.app/api/products/${leId}`)
     .then(res => res.json())
     .then(produit => {
 
