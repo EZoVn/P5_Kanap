@@ -19,7 +19,7 @@ fetch("https://kanap-ezo-api.vercel.app/api/products")
             const a = document.createElement('a');
             item.appendChild(a);
             // pour retrouver l'id du produit j'ai ajouter id= dans le lien pour reccupérer ce qui se trouve après.
-            a.setAttribute("href", `./product.html?id=${product._id}`);
+            a.setAttribute("href", `./pages/product.html?id=${product._id}`);
 
             const article = document.createElement('article');
             a.appendChild(article);

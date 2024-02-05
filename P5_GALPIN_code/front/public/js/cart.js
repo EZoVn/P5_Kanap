@@ -226,7 +226,8 @@ order.addEventListener('click', function (e) {
             .then((res) => res.json())
             .then((data) => {
                 // je récupere le orderId et l'ajoute dans l'url pour le retrouver sur la page de confirmation
-                window.location.href = `./confirmation.html?orderId=${data.orderId}`;
+                window.location.href = `./pages/confirmation.html?orderId=${data.orderId}`;
+                console.log(window.location.href);
                 // Vide le panier une fois la commande valider
 
                 localStorage.clear();
