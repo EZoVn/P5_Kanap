@@ -4,7 +4,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/front/public/$1"
+      "dest": "/front/index.html"
     }
   ]
 }
