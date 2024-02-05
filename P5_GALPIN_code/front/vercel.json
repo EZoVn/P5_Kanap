@@ -1,8 +1,8 @@
 {
-  "version": "2",
+  "version": 2,
   "builds": [
-    { "src": "/html/*.html", "use": "@now/static" },
-    { "src": "/css/*.css", "use": "@now/static" },
-    { "src": "/js/*.js", "use": "@now/static" }
+    { "src": "/frontend/html/*.html", "use": "@vercel/static" },
+    { "src": "/frontend/css/*.css", "use": "@vercel/static" },
+    { "src": "/frontend/js/*.js", "use": "@vercel/static" }
   ]
 }
