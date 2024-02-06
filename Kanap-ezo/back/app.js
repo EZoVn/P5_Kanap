@@ -20,7 +20,7 @@ app.use(express.json());
 
 app.use('/api/products', productRoutes);
 app.use('/', (req, res) => {
-  res.send('Welcome to the weather app');
+  res.send('Welcome to the Kanap-ezo API!');
 });
 
 module.exports = app;
